@@ -9,6 +9,7 @@ import sys
 INITIAL = bytearray(b'\xf2\x07!\xfe\x00\xbc\x1f\x00\x00\x02G\x00\x00\x88\x10\\\x00\x00\x07\x01\x00\x00@\xe2\x00\x0f\x07\x00\x00\x00\xb0P')
 working_text = INITIAL.copy()
 
+# change this manually for each instruction, get bits from output file of encoder.py
 encode = bytearray(b'\x00*\x00\x00\x00\x00\xba\\')
 
 # edit parts of working_text here
