@@ -100,6 +100,24 @@ def encoder_I2F_reg(float_format, int_format, is_signed, fp_rounding, selector, 
     e |= (dest_reg & 255)
     
     return e
+
+
+def encoder_STG(data_reg, cache, size, addr_reg, addr_offset, rz_addr_offset, eVar):
+    opcode = 0b1110111011011
+    e = opcode << 51
+    e |= (cache & 3) << 46
+    e |= (size & 7) << 48
+
+    e |= (addr_reg & 255) << 8
+    e |= addr_offset << 20
+    e |= rz_addr_offset << 20
+    e |= (eVar & 1) << 45
+    
+    
+    e |= (data_reg & 255)
+    
+
+    return e
     
 
 #0b101011001
@@ -121,6 +139,9 @@ print(hex(u64e))
 u64f = encoder_I2F_reg(2,2,1,0,0,0,0,1,0,0)
 print(hex(u64f))
 
+u64g = encoder_STG(0,0,0,1,0,0,1)
+print(hex(u64g))
+
 
 #turns into string?
 
@@ -130,7 +151,7 @@ sencodeC = struct.pack('Q',u64c)
 sencodeD = struct.pack('Q',u64d) 
 sencodeE = struct.pack('Q',u64e) 
 sencodeF = struct.pack('Q',u64f) 
-
+sencodeG = struct.pack('Q',u64g) 
 
 
 
@@ -142,6 +163,7 @@ f.write(str(sencodeC)+ '\n')
 f.write(str(sencodeD)+ '\n')
 f.write(str(sencodeE)+ '\n')
 f.write(str(sencodeF)+ '\n')
+f.write(str(sencodeG)+ '\n')
 f.close()
 
 
