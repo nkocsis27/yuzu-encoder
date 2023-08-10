@@ -7,10 +7,12 @@ import sys
 # Make sure it works for maxwell, or try to get a 4 instruction sequence using cuobjdump 
 # on some binary (we can chat briefly over email or zoom if you need help on this)
 INITIAL = bytearray(b'\xf2\x07!\xfe\x00\xbc\x1f\x00\x00\x02G\x00\x00\x88\x10\\\x00\x00\x07\x01\x00\x00@\xe2\x00\x0f\x07\x00\x00\x00\xb0P')
+
 working_text = INITIAL.copy()
 
-# change this manually for each instruction, get bits from output file of encoder.py
 encode = bytearray(b'\x00*\x00\x00\x00\x00\xba\\')
+stg = bytearray(b'\x00\x01\x00\x00\x00 \xd8\xee')
+exit = bytearray(b'\x00\x00\x00\x00\x00\x00\x00\xe3')
 
 # edit parts of working_text here
 # first 64 bytes correspond to the third instruction, so stick to this
@@ -19,6 +21,14 @@ encode = bytearray(b'\x00*\x00\x00\x00\x00\xba\\')
 #     working_set[i] = x  # here, x is the corresponding part of the instruction encoding.
 for i in range(8):
     working_text[i+8] = encode[i]
+    
+for i in range(8):
+    working_text[i+16] = stg[i]
+    
+for i in range(8):
+    working_text[i+24] = exit[i]
+    
+
 
 with open('tmp_bin', 'wb') as outFile:
     outFile.write(working_text)
