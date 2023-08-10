@@ -118,6 +118,12 @@ def encoder_STG(data_reg, cache, size, addr_reg, addr_offset, rz_addr_offset, eV
     
 
     return e
+
+def encoder_EXIT():
+    opcode = 0b111000110000
+    e = opcode << 52
+    
+    return e
     
 
 #0b101011001
@@ -142,6 +148,9 @@ print(hex(u64f))
 u64g = encoder_STG(0,0,0,1,0,0,1)
 print(hex(u64g))
 
+u64h = encoder_EXIT()
+print(hex(u64h))
+
 
 #turns into string?
 
@@ -152,6 +161,7 @@ sencodeD = struct.pack('Q',u64d)
 sencodeE = struct.pack('Q',u64e) 
 sencodeF = struct.pack('Q',u64f) 
 sencodeG = struct.pack('Q',u64g) 
+sencodeH = struct.pack('Q',u64h) 
 
 
 
@@ -164,6 +174,7 @@ f.write(str(sencodeD)+ '\n')
 f.write(str(sencodeE)+ '\n')
 f.write(str(sencodeF)+ '\n')
 f.write(str(sencodeG)+ '\n')
+f.write(str(sencodeH)+ '\n')
 f.close()
 
 
