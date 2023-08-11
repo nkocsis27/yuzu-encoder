@@ -1,5 +1,6 @@
 import struct
 
+unpred = 0b0111 #left shift 16 for unpredicated
 
 def encoder_IADD32I(cc, x, sat, three_for_po, neg_a, src, dst, imm):
     opcode = 0b0001110
@@ -13,6 +14,7 @@ def encoder_IADD32I(cc, x, sat, three_for_po, neg_a, src, dst, imm):
     encode |= (cc & 1) << 52
     encode |= (three_for_po & 3) << 55 
     encode |= imm << 20
+    encode |= unpred << 16
     
     encode |= (dst & 255) #ensures width is within 255, do 2^bit width
     encode |= (src & 255) << 8
@@ -31,6 +33,7 @@ def encoder_FADD32I(ftz, neg_b, abs_a, cc, neg_a, abs_b, dest_reg, src_a, imm):
     e |= (abs_a & 1) << 54
     e |= (neg_b & 1) << 53
     e |= (cc & 1) << 52
+    e |= unpred << 16
     
     e |= (dest_reg & 255) 
     e |= (src_a & 255) << 8
@@ -46,6 +49,7 @@ def encoder_DADD_reg(fp_rounding, neg_b, abs_a, cc, neg_a, abs_b, dest_reg, src_
     e |= (cc & 1) << 47
     e |= (neg_a & 1) << 48
     e |= (abs_b & 1) << 49
+    e |= unpred << 16
     
     e |= (dest_reg & 255) 
     e |= (src_a_reg & 255) << 8
@@ -62,6 +66,7 @@ def encoder_LOP32I(bit_op, x, cc, inv_a, inv_b, dest_reg, src_reg, imm):
     e |= (cc & 1) << 52
     e |= (inv_a & 1) << 55
     e |= (inv_b & 1) << 56
+    e |= unpred << 16
     
     e |= (dest_reg & 255) 
     e |= (src_reg & 255) << 8
@@ -77,6 +82,7 @@ def encoder_ISETP_reg(bop_pred, neg_bop_pred, x, bop, is_signed, compare_op, des
     e |= (bop & 3) << 45
     e |= (is_signed & 1) << 48
     e |= (compare_op & 7) << 49
+    e |= unpred << 16
     
     e |= (dest_pred_a & 7) << 3
     e |= (dest_pred_b & 7)
@@ -96,6 +102,7 @@ def encoder_I2F_reg(float_format, int_format, is_signed, fp_rounding, selector, 
     e |= (neg & 1) << 45
     e |= (abs & 1) << 49
     e |= (reg & 255) << 20
+    e |= unpred << 16
     
     e |= (dest_reg & 255)
     
@@ -112,7 +119,7 @@ def encoder_STG(data_reg, cache, size, addr_reg, addr_offset, rz_addr_offset, eV
     e |= addr_offset << 20
     e |= rz_addr_offset << 20
     e |= (eVar & 1) << 45
-    
+    e |= unpred << 16
     
     e |= (data_reg & 255)
     
@@ -122,6 +129,7 @@ def encoder_STG(data_reg, cache, size, addr_reg, addr_offset, rz_addr_offset, eV
 def encoder_EXIT():
     opcode = 0b111000110000
     e = opcode << 52
+    e |= 0b01110000000000001111 
     
     return e
     
@@ -176,5 +184,4 @@ f.write(str(sencodeF)+ '\n')
 f.write(str(sencodeG)+ '\n')
 f.write(str(sencodeH)+ '\n')
 f.close()
-
 
