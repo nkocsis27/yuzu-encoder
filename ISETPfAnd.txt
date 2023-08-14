@@ -1,0 +1,116 @@
+; SPIR-V
+; Version: 1.6
+; Generator: Khronos; 0
+; Bound: 66
+; Schema: 0
+               OpCapability ImageGatherExtended
+               OpCapability SampledBuffer
+               OpCapability SignedZeroInfNanPreserve
+               OpCapability ImageQuery
+               OpCapability Int64
+               OpCapability Shader
+               OpExtension "SPV_KHR_float_controls"
+               OpMemoryModel Logical GLSL450
+               OpEntryPoint GLCompute %57 "main"
+               OpExecutionMode %57 LocalSize 256 1 1
+               OpExecutionMode %57 SignedZeroInfNanPreserve 32
+               OpName %u1 "u1"
+               OpName %f32 "f32"
+               OpName %f32x2 "f32x2"
+               OpName %f32x3 "f32x3"
+               OpName %f32x4 "f32x4"
+               OpName %u32 "u32"
+               OpName %u32x2 "u32x2"
+               OpName %u32x3 "u32x3"
+               OpName %u32x4 "u32x4"
+               OpName %s32 "s32"
+               OpName %s32x2 "s32x2"
+               OpName %s32x3 "s32x3"
+               OpName %s32x4 "s32x4"
+               OpName %private_u32 "private_u32"
+               OpName %input_f32 "input_f32"
+               OpName %input_u32 "input_u32"
+               OpName %input_s32 "input_s32"
+               OpName %output_f32 "output_f32"
+               OpName %output_u32 "output_u32"
+               OpName %u64 "u64"
+       %void = OpTypeVoid
+         %u1 = OpTypeBool
+        %f32 = OpTypeFloat 32
+      %f32x2 = OpTypeVector %f32 2
+      %f32x3 = OpTypeVector %f32 3
+      %f32x4 = OpTypeVector %f32 4
+        %u32 = OpTypeInt 32 0
+      %u32x2 = OpTypeVector %u32 2
+      %u32x3 = OpTypeVector %u32 3
+      %u32x4 = OpTypeVector %u32 4
+        %s32 = OpTypeInt 32 1
+      %s32x2 = OpTypeVector %s32 2
+      %s32x3 = OpTypeVector %s32 3
+      %s32x4 = OpTypeVector %s32 4
+%private_u32 = OpTypePointer Private %u32
+  %input_f32 = OpTypePointer Input %f32
+  %input_u32 = OpTypePointer Input %u32
+  %input_s32 = OpTypePointer Input %s32
+ %output_f32 = OpTypePointer Output %f32
+ %output_u32 = OpTypePointer Output %u32
+        %u64 = OpTypeInt 64 0
+       %true = OpConstantTrue %u1
+      %false = OpConstantFalse %u1
+      %u32_0 = OpConstant %u32 0
+      %f32_0 = OpConstant %f32 0
+         %26 = OpTypeFunction %u32 %u64
+         %30 = OpConstantNull %u32
+         %31 = OpTypeFunction %void %u64 %u32
+         %36 = OpTypeFunction %u32x2 %u64
+         %40 = OpConstantNull %u32x2
+         %41 = OpTypeFunction %void %u64 %u32x2
+         %46 = OpTypeFunction %u32x4 %u64
+         %50 = OpConstantNull %u32x4
+         %51 = OpTypeFunction %void %u64 %u32x4
+         %56 = OpTypeFunction %void
+         %27 = OpFunction %u32 None %26
+         %28 = OpFunctionParameter %u64
+         %29 = OpLabel
+               OpReturnValue %30
+               OpFunctionEnd
+         %32 = OpFunction %void None %31
+         %33 = OpFunctionParameter %u64
+         %34 = OpFunctionParameter %u32
+         %35 = OpLabel
+               OpReturn
+               OpFunctionEnd
+         %37 = OpFunction %u32x2 None %36
+         %38 = OpFunctionParameter %u64
+         %39 = OpLabel
+               OpReturnValue %40
+               OpFunctionEnd
+         %42 = OpFunction %void None %41
+         %43 = OpFunctionParameter %u64
+         %44 = OpFunctionParameter %u32x2
+         %45 = OpLabel
+               OpReturn
+               OpFunctionEnd
+         %47 = OpFunction %u32x4 None %46
+         %48 = OpFunctionParameter %u64
+         %49 = OpLabel
+               OpReturnValue %50
+               OpFunctionEnd
+         %52 = OpFunction %void None %51
+         %53 = OpFunctionParameter %u64
+         %54 = OpFunctionParameter %u32x4
+         %55 = OpLabel
+               OpReturn
+               OpFunctionEnd
+         %57 = OpFunction %void None %56
+         %58 = OpLabel
+         %60 = OpUndef %u32
+         %61 = OpUndef %u32
+         %62 = OpUndef %u32
+         %63 = OpCompositeConstruct %u32x2 %61 %60
+         %64 = OpBitcast %u64 %63
+         %65 = OpFunctionCall %void %32 %64 %62
+               OpBranch %59
+         %59 = OpLabel
+               OpReturn
+               OpFunctionEnd
