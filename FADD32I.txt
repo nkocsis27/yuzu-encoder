@@ -1,18 +1,21 @@
 ; SPIR-V
 ; Version: 1.6
 ; Generator: Khronos; 0
-; Bound: 66
+; Bound: 73
 ; Schema: 0
                OpCapability ImageGatherExtended
                OpCapability SampledBuffer
                OpCapability SignedZeroInfNanPreserve
+               OpCapability DenormPreserve
                OpCapability ImageQuery
                OpCapability Int64
                OpCapability Shader
                OpExtension "SPV_KHR_float_controls"
+         %65 = OpExtInstImport "GLSL.std.450"
                OpMemoryModel Logical GLSL450
                OpEntryPoint GLCompute %57 "main"
                OpExecutionMode %57 LocalSize 256 1 1
+               OpExecutionMode %57 DenormPreserve 32
                OpExecutionMode %57 SignedZeroInfNanPreserve 32
                OpName %u1 "u1"
                OpName %f32 "f32"
@@ -34,6 +37,7 @@
                OpName %output_f32 "output_f32"
                OpName %output_u32 "output_u32"
                OpName %u64 "u64"
+               OpDecorate %68 NoContraction
        %void = OpTypeVoid
          %u1 = OpTypeBool
         %f32 = OpTypeFloat 32
@@ -107,9 +111,15 @@
          %60 = OpUndef %u32
          %61 = OpUndef %u32
          %62 = OpUndef %u32
-         %63 = OpCompositeConstruct %u32x2 %61 %60
-         %64 = OpBitcast %u64 %63
-         %65 = OpFunctionCall %void %32 %64 %62
+         %63 = OpBitcast %f32 %62
+         %64 = OpFNegate %f32 %63
+         %66 = OpExtInst %f32 %65 FAbs %f32_0
+         %67 = OpFNegate %f32 %66
+         %68 = OpFAdd %f32 %64 %67
+         %69 = OpBitcast %u32 %68
+         %70 = OpCompositeConstruct %u32x2 %61 %60
+         %71 = OpBitcast %u64 %70
+         %72 = OpFunctionCall %void %32 %71 %69
                OpBranch %59
          %59 = OpLabel
                OpReturn
