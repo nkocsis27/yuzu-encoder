@@ -1,7 +1,7 @@
 ; SPIR-V
 ; Version: 1.6
 ; Generator: Khronos; 0
-; Bound: 66
+; Bound: 67
 ; Schema: 0
                OpCapability ImageGatherExtended
                OpCapability SampledBuffer
@@ -107,9 +107,10 @@
          %60 = OpUndef %u32
          %61 = OpUndef %u32
          %62 = OpUndef %u32
-         %63 = OpCompositeConstruct %u32x2 %61 %60
-         %64 = OpBitcast %u64 %63
-         %65 = OpFunctionCall %void %32 %64 %62
+         %63 = OpBitwiseAnd %u32 %62 %u32_0
+         %64 = OpCompositeConstruct %u32x2 %61 %60
+         %65 = OpBitcast %u64 %64
+         %66 = OpFunctionCall %void %32 %65 %63
                OpBranch %59
          %59 = OpLabel
                OpReturn
