@@ -81,15 +81,11 @@ int IAdd_X(int a, int b, bool x) {
 
 int main(int argc, char const *argv[])
 {
-    uint32_t R2;
-    uint32_t R1 = 15;
-    uint32_t R3 = 5;
+    uint32_t R2, R1 = 15, R3 = 5;
     R2 = IADD32 (R1,R3);
     printf("Maxwell IADD: %u\n", R2);
 
-    uint64_t X2;
-    uint64_t X1 = 15;
-    uint64_t X3 = 5;
+    uint64_t X2, X1 = 15, X3 = 5;
     X2 = OpIAdd64 (X1,X3);
     printf("SPRI-V OpIAdd: %llu\n", X2);
 
@@ -97,6 +93,16 @@ int main(int argc, char const *argv[])
     uint32_t i = 5;
     result = OpConvertSToF(i);
     printf("OpConvertSToF: %u\n", result);
+
+    float opResult, op1 = 1, op2 = 4;
+    opResult = OpFAdd(op1, op2);
+    printf("OpFAdd: %u\n", opResult);
+
+    uint32_t x, a = 1, b = 1;
+    x = OpBitwiseAnd(a,b);
+    printf("OpBitwiseAnd: %u\n", x);
+
+
 
 
 
