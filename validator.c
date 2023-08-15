@@ -11,10 +11,11 @@ uint32_t IADD32 (uint32_t a, uint32_t b) {
     return a + b;
 }
 
-//fixme change types
 uint64_t IADD64 (uint64_t a, uint64_t b) { 
     return a + b;
 }
+
+
 
 
 /*
@@ -31,6 +32,25 @@ uint32_t OpIAdd32(uint32_t v1,uint32_t v2) {
 
 uint64_t OpIAdd64(uint64_t v1,uint64_t v2) {
     return v1 + v2;
+}
+
+//FIXME: floating point type (signed int only up to 32)
+float OpConvertSToF(int32_t signedInt) {
+    //FIXME: cannot cast to float
+    return (float) signedInt;
+}
+
+float OpFAdd(float op1, float op2) {
+    return op1 + op2;
+}
+
+//smaller bit size than 32 for int type? only 1 or 0, boolean?
+uint32_t OpBitwiseAnd(uint32_t op1, uint32_t op2) {
+    if (op1 == 1 && op2 == 1) {
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 
@@ -61,11 +81,6 @@ int IAdd_X(int a, int b, bool x) {
 
 int main(int argc, char const *argv[])
 {
-// change int to u32
-
-   
-
-
     uint32_t R2;
     uint32_t R1 = 15;
     uint32_t R3 = 5;
@@ -78,6 +93,12 @@ int main(int argc, char const *argv[])
     X2 = OpIAdd64 (X1,X3);
     printf("SPRI-V OpIAdd: %llu\n", X2);
 
+    float result;
+    uint32_t i = 5;
+    result = OpConvertSToF(i);
+    printf("OpConvertSToF: %u\n", result);
+
+
 
     assert (R1 == X1);
     assert (R3 == X3); //FIXME assertion fails with signed numbers 
@@ -86,5 +107,3 @@ int main(int argc, char const *argv[])
     
     return 0;
 }
-
-
