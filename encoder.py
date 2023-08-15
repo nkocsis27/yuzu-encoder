@@ -135,25 +135,25 @@ def encoder_EXIT():
     
 
 #0b101011001
-u64a = encoder_IADD32I(0,1,0,1,1,0,0,0b101011001)
+u64a = encoder_IADD32I(0,1,4,4,1,4,8,0b101011001)
 print(hex(u64a))
 
-u64b = encoder_FADD32I(0,1,0,0,1,1,0,0,0b000000)
+u64b = encoder_FADD32I(0,1,0,0,1,1,8,4,0b000000)
 print(hex(u64b))
 
-u64c = encoder_DADD_reg(5,0,0,1,0,0,0,0)
+u64c = encoder_DADD_reg(5,0,0,0,0,0,8,4)
 print(hex(u64c))
 
-u64d = encoder_LOP32I(0,1,0,0,0,0,0,0b000)
+u64d = encoder_LOP32I(0,0,0,0,0,8,4,0b000)
 print(hex(u64d))
 
-u64e = encoder_ISETP_reg(0,1,0,0,1,0,0,0,0)
+u64e = encoder_ISETP_reg(0,1,0,0,1,0,8,8,4)
 print(hex(u64e))
 
-u64f = encoder_I2F_reg(2,2,1,0,0,0,0,1,0,0)
+u64f = encoder_I2F_reg(2,2,1,0,0,0,0,1,4,8)
 print(hex(u64f))
 
-u64g = encoder_STG(0,0,0,1,0,0,1)
+u64g = encoder_STG(8,0,4,16,0,0,1)
 print(hex(u64g))
 
 u64h = encoder_EXIT()
@@ -184,4 +184,3 @@ f.write(str(sencodeF)+ '\n')
 f.write(str(sencodeG)+ '\n')
 f.write(str(sencodeH)+ '\n')
 f.close()
-
