@@ -132,6 +132,16 @@ def encoder_EXIT():
     e |= 0b01110000000000001111 
     
     return e
+
+def encoder_MOV32I(dest_reg, mask, mov32i_mask):
+    opcode = 0b000000010000
+    e = opcode << 52
+    e |= dest_reg
+    e |= mask << 39
+    e |= mov32i_mask << 12
+    
+    return e
+    
     
 
 #0b101011001
@@ -159,6 +169,9 @@ print(hex(u64g))
 u64h = encoder_EXIT()
 print(hex(u64h))
 
+u64MOV = encoder_MOV32I(8,0b101,0)
+print(hex(u64MOV))
+
 
 #turns into string?
 
@@ -171,7 +184,7 @@ sencodeF = struct.pack('Q',u64f)
 sencodeG = struct.pack('Q',u64g) 
 sencodeH = struct.pack('Q',u64h) 
 
-
+sencodeMOV = struct.pack('Q',u64MOV)
 
 #write to file
 f = open("encodes.txt", "w")
@@ -183,4 +196,5 @@ f.write(str(sencodeE)+ '\n')
 f.write(str(sencodeF)+ '\n')
 f.write(str(sencodeG)+ '\n')
 f.write(str(sencodeH)+ '\n')
+f.write(str(sencodeMOV)+ '\n')
 f.close()
