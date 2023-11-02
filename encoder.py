@@ -139,6 +139,7 @@ def encoder_MOV32I(dest_reg, mask, mov32i_mask):
     e |= dest_reg
     e |= mask << 39
     e |= mov32i_mask << 12
+    e |= unpred << 16
     
     return e
     
