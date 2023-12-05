@@ -1,0 +1,184 @@
+; SPIR-V
+; Version: 1.6
+; Generator: Khronos; 0
+; Bound: 131
+; Schema: 0
+               OpCapability ImageGatherExtended
+               OpCapability SampledBuffer
+               OpCapability SignedZeroInfNanPreserve
+               OpCapability DenormPreserve
+               OpCapability ImageQuery
+               OpCapability Int64
+               OpCapability Shader
+               OpExtension "SPV_KHR_float_controls"
+               OpMemoryModel Logical GLSL450
+               OpEntryPoint GLCompute %57 "main"
+               OpExecutionMode %57 LocalSize 256 1 1
+               OpExecutionMode %57 DenormPreserve 32
+               OpExecutionMode %57 SignedZeroInfNanPreserve 32
+               OpName %u1 "u1"
+               OpName %f32 "f32"
+               OpName %f32x2 "f32x2"
+               OpName %f32x3 "f32x3"
+               OpName %f32x4 "f32x4"
+               OpName %u32 "u32"
+               OpName %u32x2 "u32x2"
+               OpName %u32x3 "u32x3"
+               OpName %u32x4 "u32x4"
+               OpName %s32 "s32"
+               OpName %s32x2 "s32x2"
+               OpName %s32x3 "s32x3"
+               OpName %s32x4 "s32x4"
+               OpName %private_u32 "private_u32"
+               OpName %input_f32 "input_f32"
+               OpName %input_u32 "input_u32"
+               OpName %input_s32 "input_s32"
+               OpName %output_f32 "output_f32"
+               OpName %output_u32 "output_u32"
+               OpName %u64 "u64"
+               OpDecorate %108 NoContraction
+       %void = OpTypeVoid
+         %u1 = OpTypeBool
+        %f32 = OpTypeFloat 32
+      %f32x2 = OpTypeVector %f32 2
+      %f32x3 = OpTypeVector %f32 3
+      %f32x4 = OpTypeVector %f32 4
+        %u32 = OpTypeInt 32 0
+      %u32x2 = OpTypeVector %u32 2
+      %u32x3 = OpTypeVector %u32 3
+      %u32x4 = OpTypeVector %u32 4
+        %s32 = OpTypeInt 32 1
+      %s32x2 = OpTypeVector %s32 2
+      %s32x3 = OpTypeVector %s32 3
+      %s32x4 = OpTypeVector %s32 4
+%private_u32 = OpTypePointer Private %u32
+  %input_f32 = OpTypePointer Input %f32
+  %input_u32 = OpTypePointer Input %u32
+  %input_s32 = OpTypePointer Input %s32
+ %output_f32 = OpTypePointer Output %f32
+ %output_u32 = OpTypePointer Output %u32
+        %u64 = OpTypeInt 64 0
+       %true = OpConstantTrue %u1
+      %false = OpConstantFalse %u1
+      %u32_0 = OpConstant %u32 0
+      %f32_0 = OpConstant %f32 0
+         %26 = OpTypeFunction %u32 %u64
+         %30 = OpConstantNull %u32
+         %31 = OpTypeFunction %void %u64 %u32
+         %36 = OpTypeFunction %u32x2 %u64
+         %40 = OpConstantNull %u32x2
+         %41 = OpTypeFunction %void %u64 %u32x2
+         %46 = OpTypeFunction %u32x4 %u64
+         %50 = OpConstantNull %u32x4
+         %51 = OpTypeFunction %void %u64 %u32x4
+         %56 = OpTypeFunction %void
+      %u32_1 = OpConstant %u32 1
+     %u32_31 = OpConstant %u32 31
+     %u32_11 = OpConstant %u32 11
+     %u32_20 = OpConstant %u32 20
+      %u32_3 = OpConstant %u32 3
+     %u32_29 = OpConstant %u32 29
+    %u32_896 = OpConstant %u32 896
+   %u32_2047 = OpConstant %u32 2047
+    %u32_255 = OpConstant %u32 255
+     %u32_23 = OpConstant %u32 23
+      %u32_8 = OpConstant %u32 8
+%u32_4294966400 = OpConstant %u32 4294966400
+         %27 = OpFunction %u32 None %26
+         %28 = OpFunctionParameter %u64
+         %29 = OpLabel
+               OpReturnValue %30
+               OpFunctionEnd
+         %32 = OpFunction %void None %31
+         %33 = OpFunctionParameter %u64
+         %34 = OpFunctionParameter %u32
+         %35 = OpLabel
+               OpReturn
+               OpFunctionEnd
+         %37 = OpFunction %u32x2 None %36
+         %38 = OpFunctionParameter %u64
+         %39 = OpLabel
+               OpReturnValue %40
+               OpFunctionEnd
+         %42 = OpFunction %void None %41
+         %43 = OpFunctionParameter %u64
+         %44 = OpFunctionParameter %u32x2
+         %45 = OpLabel
+               OpReturn
+               OpFunctionEnd
+         %47 = OpFunction %u32x4 None %46
+         %48 = OpFunctionParameter %u64
+         %49 = OpLabel
+               OpReturnValue %50
+               OpFunctionEnd
+         %52 = OpFunction %void None %51
+         %53 = OpFunctionParameter %u64
+         %54 = OpFunctionParameter %u32x4
+         %55 = OpLabel
+               OpReturn
+               OpFunctionEnd
+         %57 = OpFunction %void None %56
+         %58 = OpLabel
+         %60 = OpUndef %u32
+         %61 = OpUndef %u32
+         %62 = OpUndef %u32
+         %63 = OpUndef %u32
+         %64 = OpUndef %u32
+         %65 = OpUndef %u32
+         %68 = OpBitFieldUExtract %u32 %64 %u32_31 %u32_1
+         %71 = OpBitFieldUExtract %u32 %64 %u32_20 %u32_11
+         %72 = OpBitFieldUExtract %u32 %64 %u32_0 %u32_20
+         %75 = OpBitFieldUExtract %u32 %65 %u32_29 %u32_3
+         %76 = OpShiftLeftLogical %u32 %72 %u32_3
+         %77 = OpBitwiseOr %u32 %76 %75
+         %79 = OpIAdd %u32 %71 %u32_896
+         %80 = OpIEqual %u1 %71 %u32_0
+         %81 = OpSelect %u32 %80 %u32_0 %79
+         %83 = OpIEqual %u1 %71 %u32_2047
+         %85 = OpSelect %u32 %83 %u32_255 %81
+         %87 = OpShiftLeftLogical %u32 %85 %u32_23
+         %88 = OpBitwiseOr %u32 %87 %77
+         %89 = OpShiftLeftLogical %u32 %68 %u32_31
+         %90 = OpBitwiseOr %u32 %89 %88
+         %91 = OpBitcast %f32 %90
+         %92 = OpBitFieldUExtract %u32 %62 %u32_31 %u32_1
+         %93 = OpBitFieldUExtract %u32 %62 %u32_20 %u32_11
+         %94 = OpBitFieldUExtract %u32 %62 %u32_0 %u32_20
+         %95 = OpBitFieldUExtract %u32 %63 %u32_29 %u32_3
+         %96 = OpShiftLeftLogical %u32 %94 %u32_3
+         %97 = OpBitwiseOr %u32 %96 %95
+         %98 = OpIAdd %u32 %93 %u32_896
+         %99 = OpIEqual %u1 %93 %u32_0
+        %100 = OpSelect %u32 %99 %u32_0 %98
+        %101 = OpIEqual %u1 %93 %u32_2047
+        %102 = OpSelect %u32 %101 %u32_255 %100
+        %103 = OpShiftLeftLogical %u32 %102 %u32_23
+        %104 = OpBitwiseOr %u32 %103 %97
+        %105 = OpShiftLeftLogical %u32 %92 %u32_31
+        %106 = OpBitwiseOr %u32 %105 %104
+        %107 = OpBitcast %f32 %106
+        %108 = OpFAdd %f32 %107 %91
+        %109 = OpBitcast %u32 %108
+        %110 = OpBitFieldUExtract %u32 %109 %u32_31 %u32_1
+        %112 = OpBitFieldUExtract %u32 %109 %u32_23 %u32_8
+        %113 = OpBitFieldUExtract %u32 %109 %u32_0 %u32_23
+        %114 = OpBitFieldUExtract %u32 %113 %u32_3 %u32_20
+        %115 = OpBitFieldUExtract %u32 %113 %u32_0 %u32_3
+        %117 = OpIAdd %u32 %112 %u32_4294966400
+        %118 = OpIEqual %u1 %112 %u32_0
+        %119 = OpSelect %u32 %118 %u32_0 %117
+        %120 = OpIEqual %u1 %112 %u32_255
+        %121 = OpSelect %u32 %120 %u32_2047 %119
+        %122 = OpShiftLeftLogical %u32 %115 %u32_29
+        %123 = OpShiftLeftLogical %u32 %121 %u32_20
+        %124 = OpBitwiseOr %u32 %123 %114
+        %125 = OpShiftLeftLogical %u32 %110 %u32_31
+        %126 = OpBitwiseOr %u32 %125 %124
+        %127 = OpCompositeConstruct %u32x2 %61 %60
+        %128 = OpBitcast %u64 %127
+        %129 = OpCompositeConstruct %u32x2 %122 %126
+        %130 = OpFunctionCall %void %42 %128 %129
+               OpBranch %59
+         %59 = OpLabel
+               OpReturn
+               OpFunctionEnd
