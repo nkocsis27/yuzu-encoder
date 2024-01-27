@@ -40,7 +40,7 @@ def encoder_FADD32I(ftz, neg_b, abs_a, cc, neg_a, abs_b, dest_reg, src_a, imm):
     
     return e
 
-def encoder_DADD_reg(fp_rounding, neg_b, abs_a, cc, neg_a, abs_b, dest_reg, src_a_reg):
+def encoder_DADD_reg(fp_rounding, neg_b, abs_a, cc, neg_a, abs_b, dest_reg, src_a_reg, src_b):
     opcode = 0b0101110001110
     e = opcode << 51 
     e |= (fp_rounding & 3) << 39
@@ -50,6 +50,7 @@ def encoder_DADD_reg(fp_rounding, neg_b, abs_a, cc, neg_a, abs_b, dest_reg, src_
     e |= (neg_a & 1) << 48
     e |= (abs_b & 1) << 49
     e |= unpred << 16
+    e |= src_b << 20
     
     e |= (dest_reg & 255) 
     e |= (src_a_reg & 255) << 8
@@ -152,7 +153,7 @@ print(hex(u64a))
 u64b = encoder_FADD32I(0,1,0,0,1,1,8,4,0b000000)
 print(hex(u64b))
 
-u64c = encoder_DADD_reg(5,0,0,0,0,0,8,4)
+u64c = encoder_DADD_reg(5,0,0,0,0,0,8,0,4)
 print(hex(u64c))
 
 u64d = encoder_LOP32I(0,0,0,0,0,8,4,0b000)
@@ -170,7 +171,9 @@ print(hex(u64g))
 u64h = encoder_EXIT()
 print(hex(u64h))
 
-u64MOV = encoder_MOV32I(8,0b101,0)
+u64MOV = encoder_MOV32I(5,0xf,15)
+#split 64 bit evenly into 32's
+
 print(hex(u64MOV))
 
 
