@@ -216,6 +216,48 @@ int IAdd_X(int a, int b, bool x) {
 // }
 
 double SprivDoubleAdd (double a, double b) {
+    uint32_t p66 = ShiftLeftLogical(524288,3); //line 130
+    uint32_t p67 = BitwiseOr(p66, 0);
+    uint32_t p70 = ShiftLeftLogical(904, 23);
+    uint32_t p71 = BitwiseOr(p70, p67);
+    uint32_t p73 = ShiftLeftLogical(0,31);
+    uint32_t p74 = BitwiseOr(p73 p71);
+    uint32_t p75 = U32toF32(p74);
+
+    uint32_t p79 = ShiftLeftLogical(524288,3);
+    uint32_t p80 = BitwiseOr(p79, 0);
+    uint32_t p82 = ShiftLeftLogical(1414,23);
+    uint32_t p83 = BitwiseOr(p82, p80);
+    uint32_t p84 = ShiftLeftLogical(0,31);
+    uint32_t p85 = BitwiseOr(p84,p83);
+    uint32_t p86 = U32toF32(p85);
+
+    float p87 = OpFAdd(p86,p75);
+    uint32_t p88 = f32ToU32(p87);
+
+    uint32_t p90 = BitFieldExtract(p88,31,1);
+    uint32_t p91 = BitFieldExtract(p88,23,8);
+    uint32_t p92 = BitFieldExtract(p88,0,23);
+    uint32_t p94 = BitFieldExtract(p92,3,20);
+    uint32_t p95 = BitFieldExtract(p92,0,3);
+
+    uint32_t p97 = OpIAdd32(p91,4294966400);
+    bool p98 = IEqual(p91,0);
+    uint32_t p99 = Select(p98,0,p97);
+    bool p101 = IEqual(p91,255);
+    uint32_t p103 = Select(p101, 2047, p99);
+    uint32_t p105 = ShiftLeftLogical(p95,29);
+    uint32_t p106 = ShiftLeftLogical(p103,20);
+    uint32_t p107 = BitwiseOr(p106,p94);
+    uint32_t p108 = ShiftLeftLogical(p90,31);
+    uint32_t p109 = BitwiseOr(p108,p107);
+    float p111 = CompositeConstruct(7864320,p60);
+    uint64_t p112 = f64toU64(p111);
+    float p113 = CompositeConstruct(p105,p109);
+
+    return p112;
+
+    /*
     //split double a into hi %64 and lo %65
     uint32_t a_hi = CompositeExtract(a,0);
     uint32_t a_lo = CompositeExtract(a,1);
@@ -266,6 +308,7 @@ double SprivDoubleAdd (double a, double b) {
     uint32_t p110 = BitFieldExtract(p109, 0, 23);
     uint32_t p111 = BitFieldExtract(p110, 0, 3);
     uint32_t p112 = ShiftLeftLogical(p111, 29);
+    */
 
     //%113 = CompositeConstruct (%u32x2) p61 p60
     // Type vector of two u32 elements
