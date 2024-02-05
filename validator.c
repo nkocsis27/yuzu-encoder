@@ -216,6 +216,8 @@ int IAdd_X(int a, int b, bool x) {
 // }
 
 double SprivDoubleAdd (double a, double b) {
+    //FIXME figure out what is a and b (or their hi and lo)
+    //why is there no composite extract?
     uint32_t p66 = ShiftLeftLogical(524288,3); //line 130
     uint32_t p67 = BitwiseOr(p66, 0);
     uint32_t p70 = ShiftLeftLogical(904, 23);
@@ -254,7 +256,7 @@ double SprivDoubleAdd (double a, double b) {
     float p111 = CompositeConstruct(7864320,p60);
     uint64_t p112 = f64toU64(p111);
     float p113 = CompositeConstruct(p105,p109);
-
+    //FIXME return the correct double
     return p112;
 
     /*
