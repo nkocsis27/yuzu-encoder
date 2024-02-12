@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <assert.h>
 #include <math.h>
+#include <fenv.h>
 /*
     Treat everything as unsigned so u_int_...
 */
@@ -59,7 +60,17 @@ uint32_t OpBitwiseAnd(uint32_t op1, uint32_t op2) {
     }
 }
 
-//TODO spir-v implementation of double addition
+union U64toDouble {
+    uint64_t u;
+    float f;
+} w; 
+
+uint64_t U64toF64(uint64_t u) {
+    w.u = u;
+    return w.f;
+
+}
+
 
 union doubleToInt64 {
     double f;
@@ -125,7 +136,7 @@ uint32_t BitwiseOr (uint32_t mantissa_hi, uint32_t mantissa_lo) {
 //ShiftLeftLogical
 uint32_t ShiftLeftLogical (uint32_t mantissa_hi, uint32_t shift) {
     if (shift >= 32) {
-        //Handle error
+        //Handle error FIXME assert statement
         printf("Undefined Shift\n");
     } else {
         mantissa_hi <<= shift ;
@@ -149,6 +160,7 @@ bool IEqual (uint32_t lhs, uint32_t rhs) {
     }
 }
 
+//FIXME does this not happen because of the constants
 float PackedF64ToF32(uint64_t value) {
     uint32_t lo = CompositeExtract(value,0);
     uint32_t hi = CompositeExtract(value,1);
@@ -215,15 +227,23 @@ int IAdd_X(int a, int b, bool x) {
 //   return 0;
 // }
 
+
+double SASS_DADD_RM(double a, double b) {
+    int old_rm = fegetround();
+    fesetround(FE_DOWNWARD);
+    double res = a + b;
+    fesetround(old_rm);
+    return res;
+}
+
 double SprivDoubleAdd (double a, double b) {
     //FIXME figure out what is a and b (or their hi and lo)
-    //why is there no composite extract?
     uint32_t p66 = ShiftLeftLogical(524288,3); //line 130
     uint32_t p67 = BitwiseOr(p66, 0);
     uint32_t p70 = ShiftLeftLogical(904, 23);
     uint32_t p71 = BitwiseOr(p70, p67);
     uint32_t p73 = ShiftLeftLogical(0,31);
-    uint32_t p74 = BitwiseOr(p73 p71);
+    uint32_t p74 = BitwiseOr(p73, p71);
     uint32_t p75 = U32toF32(p74);
 
     uint32_t p79 = ShiftLeftLogical(524288,3);
@@ -253,73 +273,19 @@ double SprivDoubleAdd (double a, double b) {
     uint32_t p107 = BitwiseOr(p106,p94);
     uint32_t p108 = ShiftLeftLogical(p90,31);
     uint32_t p109 = BitwiseOr(p108,p107);
-    float p111 = CompositeConstruct(7864320,p60);
+    float p111 = CompositeConstruct(7864320,0); 
     uint64_t p112 = f64toU64(p111);
     float p113 = CompositeConstruct(p105,p109);
-    //FIXME return the correct double
     return p112;
-
-    /*
-    //split double a into hi %64 and lo %65
-    uint32_t a_hi = CompositeExtract(a,0);
-    uint32_t a_lo = CompositeExtract(a,1);
-
-
-    uint32_t p68 = BitFieldExtract(a_hi, 31, 1);
-    uint32_t p71 = BitFieldExtract(a_hi, 20, 11);
-    uint32_t p72 = BitFieldExtract(a_hi, 0, 20);
-    uint32_t p75 = BitFieldExtract(a_lo, 29, 3);
-    uint32_t p76 = ShiftLeftLogical(p72, 3);
-    uint32_t p77 = BitwiseOr(p76, p75);
-    uint32_t p79 = OpIAdd32(p71, 896);
-    bool p80 = IEqual(p71, 0);
-    uint32_t p81 = Select(p80, 0, p79);
-    bool p83 = IEqual(p71, 2047);
-    uint32_t p85 = Select(p83, 225, p81);
-    uint32_t p87 = ShiftLeftLogical(p85, 23);
-    uint32_t p88 = BitwiseOr(p87, p77);
-    uint32_t p89 = ShiftLeftLogical(p68, 31);
-    uint32_t p90 = BitwiseOr(p89, p88);
-    float p91 = U32toF32(p90); //bitcast
-
-    //split b into hi %62 and lo %63
-    uint32_t b_hi = CompositeExtract(b,0);
-    uint32_t b_lo = CompositeExtract(b,1);
-
-
-    uint32_t p92 = BitFieldExtract(b_hi, 31, 1);
-    uint32_t p93 = BitFieldExtract(b_hi, 20, 11);
-    uint32_t p94 = BitFieldExtract(b_hi, 0 , 20);
-    uint32_t p95 = BitFieldExtract(b_lo, 29, 3);
-    uint32_t p96 = ShiftLeftLogical(p94, 3);
-    uint32_t p97 = BitwiseOr(p96, p95);
-    uint32_t p98 = OpIAdd32(p93, 896);
-    bool p99 = IEqual(p93, 0);
-    uint32_t p100 = Select(p99, 0, p98);
-    bool p101 = IEqual(p93, 2047);
-    uint32_t p102 = Select(p101, 255, p100);
-    uint32_t p103 = ShiftLeftLogical(p102, 23);
-    uint32_t p104 = BitwiseOr(p103, p97);
-    uint32_t p105 = ShiftLeftLogical(p92, 31);
-    uint32_t p106 = BitwiseOr(p105, p104);
-    float p107 = U32toF32(p106); //bitcast
-
-    float p108 = OpFAdd(p107, p91); //
-    uint32_t p109 = f32ToU32(p108); //float to u32
-
-    uint32_t p110 = BitFieldExtract(p109, 0, 23);
-    uint32_t p111 = BitFieldExtract(p110, 0, 3);
-    uint32_t p112 = ShiftLeftLogical(p111, 29);
+    /*FIXME implement composite contruct
+        Figure out move32i
     */
 
-    //%113 = CompositeConstruct (%u32x2) p61 p60
-    // Type vector of two u32 elements
-
-    //FIXME return double
 }
 
 int main(int argc, char const *argv[])
 {
+
     // uint32_t R2, R1 = 15, R3 = 5;
     // R2 = IADD32 (R1,R3);
     // printf("Maxwell IADD: %u\n", R2);
@@ -343,7 +309,7 @@ int main(int argc, char const *argv[])
 
 
     double X, Y, b2 = 7.4, b3 = 2.0;
-    X = DADD(b2, b3);
+    X = SASS_DADD_RM(b2, b3);
     printf("DADD: %f\n", X);
 
     Y = SprivDoubleAdd(b2,b3);
@@ -361,7 +327,7 @@ int main(int argc, char const *argv[])
 
 
 
-    // assert(X == Y);
+    assert(X == Y);
 
     
     return 0;
