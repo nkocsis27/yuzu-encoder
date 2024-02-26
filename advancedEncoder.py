@@ -30,14 +30,11 @@ class Mov32I:
         self.imm = BitField(20,32,imm)
         self.oppcode = BitField(52,12,0b000000010000)
         
-        
         self.encodedInstruct = 0b0
-
-  
-    #    self.pred = 0b0111 #does move32i use unpred
+        self.pred = BitField(16,4,0b0111)
         
     def encoding(self):
-        self.encodedInstruct = self.dest_reg.shift() | self.mov32i_mask.shift() | self.imm.shift() | self.oppcode.shift()
+        self.encodedInstruct = self.dest_reg.shift() | self.mov32i_mask.shift() | self.imm.shift() | self.oppcode.shift() | self.pred.shift()
         return self.encodedInstruct
         
 
@@ -54,19 +51,44 @@ class Mov32I:
     def printAllVals(self):
         print(self.dest_reg.val, self.mov32i_mask.val, self.imm.val)
 
-dest = 0b101
-movMask = 0xf
-im = 0b0111
 
-mov1 = Mov32I(dest, movMask, im)
-print(bin(mov1.encoding()))
+#Mov32I(dest_reg, movMask, imm)
+movR0 = Mov32I(0, 0xf, 0b1111)
+movR1 = Mov32I(1, 0xf, 0b0111)
+movR4 = Mov32I(4, 0xf, 0b01)
+movR5 = Mov32I(5, 0xf, 0b0101)
+movR16 = Mov32I(16, 0xf, 0)
+movR17 = Mov32I(17, 0xf, 0)
 
-mov1.printAllVals()
+#FIXME use array here to itterate over mov variables
+print(bin(movR0.encoding()))
+print(bin(movR1.encoding()))
+print(bin(movR4.encoding()))
+print(bin(movR5.encoding()))
+print(bin(movR16.encoding()))
+print(bin(movR17.encoding()))
 
-mov1.decoding()
+movR0.decoding()
+movR1.decoding()
+movR4.decoding()
+movR5.decoding()
+movR16.decoding()
+movR17.decoding()
 
 
-sencodeA = struct.pack('Q',mov1.encoding()) 
+sencodeR0 = struct.pack('Q',movR0.encoding())
+sencodeR1 = struct.pack('Q',movR1.encoding()) 
+sencodeR4 = struct.pack('Q',movR4.encoding()) 
+sencodeR5 = struct.pack('Q',movR5.encoding()) 
+sencodeR16 = struct.pack('Q',movR16.encoding()) 
+sencodeR17 = struct.pack('Q',movR17.encoding()) 
+ 
 f = open("advancedEncodes.txt", "w")
-f.write(str(sencodeA)+ '\n')
+
+f.write(str(sencodeR0)+ '\n')
+f.write(str(sencodeR1)+ '\n')
+f.write(str(sencodeR4)+ '\n')
+f.write(str(sencodeR5)+ '\n')
+f.write(str(sencodeR16)+ '\n')
+f.write(str(sencodeR17)+ '\n')
 f.close();
