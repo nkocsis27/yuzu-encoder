@@ -95,6 +95,39 @@ uint32_t f32ToU32(float fa) {
     return t.i;
 }
 
+//NOTE added here
+//From double to two uint32_t
+union doubleTo32uints {
+    double d;
+    struct s {
+        uint32_t hi;
+        uint32_t lo; //FIXME is lo and hi correct order?
+    } s;
+} x;
+
+uint32_t doubleTo32lo(double d) {
+    x.d = d;
+    return x.s.lo;
+}
+uint32_t doubleTo32hi(double d) {
+    x.d = d;
+    return x.s.hi;
+}
+
+//Opposite of previous conversion
+union uint32sToDouble {
+    struct s1 {
+        uint32_t hi;
+        uint32_t lo;
+    } s1;
+    double d;
+} x1;
+
+double uint32ToDouble(uint32_t lo, uint32_t hi) {
+    x1.s1.hi = hi;
+    x1.s1.lo = lo;
+    return x.d;
+}
 
 
 //Bitcase from uint32_t to float.
@@ -120,6 +153,14 @@ uint32_t CompositeExtract(uint64_t packed, int index) {
     }
 }
 
+//CompositeConstruct
+//FIXME shift overflow float (32)
+double SPCompositeConstruct (uint32_t mostSig, uint32_t leastSig) {
+    double new = mostSig << 32;
+    new = mostSig | leastSig;
+    return new;
+}
+
 //BitFieldExtract
 uint32_t BitFieldExtract(uint32_t base, uint32_t offset, uint32_t count) {
     base >>= offset;
@@ -142,7 +183,7 @@ uint32_t ShiftLeftLogical (uint32_t mantissa_hi, uint32_t shift) {
         mantissa_hi <<= shift ;
     }
     //shift left is the same as multiplying by base^shift
-    //FIXME special case for shifting 32 or greater
+    //special case for shifting 32 or greater
     return mantissa_hi;
 }
 
@@ -235,20 +276,20 @@ double SASS_DADD_RM(double a, double b) {
     fesetround(old_rm);
     return res;
 }
-
+//FIXME Pass a and b in?
 double SprivDoubleAdd (double a, double b) {
-    //FIXME figure out what is a and b (or their hi and lo)
-    uint32_t p66 = ShiftLeftLogical(524288,3); //line 130
+
+    uint32_t p66 = ShiftLeftLogical(5,3); //line 130
     uint32_t p67 = BitwiseOr(p66, 0);
-    uint32_t p70 = ShiftLeftLogical(904, 23);
+    uint32_t p70 = ShiftLeftLogical(0, 23);
     uint32_t p71 = BitwiseOr(p70, p67);
     uint32_t p73 = ShiftLeftLogical(0,31);
     uint32_t p74 = BitwiseOr(p73, p71);
     uint32_t p75 = U32toF32(p74);
 
-    uint32_t p79 = ShiftLeftLogical(524288,3);
+    uint32_t p79 = ShiftLeftLogical(7,3);
     uint32_t p80 = BitwiseOr(p79, 0);
-    uint32_t p82 = ShiftLeftLogical(1414,23);
+    uint32_t p82 = ShiftLeftLogical(0,23);
     uint32_t p83 = BitwiseOr(p82, p80);
     uint32_t p84 = ShiftLeftLogical(0,31);
     uint32_t p85 = BitwiseOr(p84,p83);
@@ -273,13 +314,10 @@ double SprivDoubleAdd (double a, double b) {
     uint32_t p107 = BitwiseOr(p106,p94);
     uint32_t p108 = ShiftLeftLogical(p90,31);
     uint32_t p109 = BitwiseOr(p108,p107);
-    float p111 = CompositeConstruct(7864320,0); 
+    double p111 = SPCompositeConstruct(0,0); //NOTE changes to double from float
     uint64_t p112 = f64toU64(p111);
-    float p113 = CompositeConstruct(p105,p109);
+    double p113 = SPCompositeConstruct(p105,p109);
     return p112;
-    /*FIXME implement composite contruct
-        Figure out move32i
-    */
 
 }
 
@@ -307,8 +345,19 @@ int main(int argc, char const *argv[])
     // x = OpBitwiseAnd(a,b);
     // printf("OpBitwiseAnd: %u\n", x);
 
+    //FIXME should be double or uint64_t 
+    double d = 2.1e20l;
+    printf("Double: %f\n", d);
+    uint32_t lo  =doubleTo32lo(d);
+    uint32_t hi = doubleTo32hi(d);
+    printf("Hi: %u\n",hi);
+    printf("Lo: %u\n",lo);
 
-    double X, Y, b2 = 7.4, b3 = 2.0;
+    double d1 = uint32ToDouble(lo,hi);
+    printf("Double: %f\n\n\n", d1);
+
+
+    double X, Y, b2 = 4.78e55l, b3 = 2.1e20l;
     X = SASS_DADD_RM(b2, b3);
     printf("DADD: %f\n", X);
 
