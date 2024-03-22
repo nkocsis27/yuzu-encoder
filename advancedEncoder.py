@@ -52,13 +52,17 @@ class Mov32I:
         print(self.dest_reg.val, self.mov32i_mask.val, self.imm.val)
 
 
+
 #Mov32I(dest_reg, movMask, imm)
-movR0 = Mov32I(0, 0xf, 0b1111)
-movR1 = Mov32I(1, 0xf, 0b0111)
-movR4 = Mov32I(4, 0xf, 0b01)
-movR5 = Mov32I(5, 0xf, 0b0101)
+movR0 = Mov32I(0, 0xf, 0x4b7f30e2)
+movR1 = Mov32I(1, 0xf, 0x734573d8)
+movR4 = Mov32I(4, 0xf, 0x4426c4ac)
+movR5 = Mov32I(5, 0xf, 0xbebea010)
 movR16 = Mov32I(16, 0xf, 0)
 movR17 = Mov32I(17, 0xf, 0)
+
+#FIXME return 64 bit value (double)
+
 
 #FIXME use array here to itterate over mov variables
 print(bin(movR0.encoding()))
