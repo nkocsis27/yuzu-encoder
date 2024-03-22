@@ -279,17 +279,17 @@ double SASS_DADD_RM(double a, double b) {
 //FIXME Pass a and b in?
 double SprivDoubleAdd (double a, double b) {
 
-    uint32_t p66 = ShiftLeftLogical(5,3); //line 130
-    uint32_t p67 = BitwiseOr(p66, 0);
-    uint32_t p70 = ShiftLeftLogical(0, 23);
+    uint32_t p66 = ShiftLeftLogical(958480,3); //line 130
+    uint32_t p67 = BitwiseOr(p66, 2);
+    uint32_t p70 = ShiftLeftLogical(1899, 23);
     uint32_t p71 = BitwiseOr(p70, p67);
-    uint32_t p73 = ShiftLeftLogical(0,31);
+    uint32_t p73 = ShiftLeftLogical(1,31);
     uint32_t p74 = BitwiseOr(p73, p71);
     uint32_t p75 = U32toF32(p74);
 
-    uint32_t p79 = ShiftLeftLogical(7,3);
-    uint32_t p80 = BitwiseOr(p79, 0);
-    uint32_t p82 = ShiftLeftLogical(0,23);
+    uint32_t p79 = ShiftLeftLogical(357336,3);
+    uint32_t p80 = BitwiseOr(p79, 2);
+    uint32_t p82 = ShiftLeftLogical(2740,23);
     uint32_t p83 = BitwiseOr(p82, p80);
     uint32_t p84 = ShiftLeftLogical(0,31);
     uint32_t p85 = BitwiseOr(p84,p83);
@@ -345,7 +345,6 @@ int main(int argc, char const *argv[])
     // x = OpBitwiseAnd(a,b);
     // printf("OpBitwiseAnd: %u\n", x);
 
-    //FIXME should be double or uint64_t 
     double d = 2.1e20l;
     printf("Double: %f\n", d);
     uint32_t lo  =doubleTo32lo(d);
