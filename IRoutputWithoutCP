@@ -1,0 +1,120 @@
+Output before optimization:
+Block
+[00007f37ecc5bf18]          Prologue
+[00007f37ecc5b018]          SetGotoVariable #0, #false
+[00007f37ecc5b090]          SetGotoVariable #0, #false
+[00007f37ecc5b108]          SetRegister R0, #1266626786
+[00007f37ecc5b180]          SetRegister R1, #1933931480
+[00007f37ecc5b1f8]          SetRegister R4, #1143391404
+[00007f37ecc5b270]          SetRegister R5, #3200163856
+[00007f37ecc5b2e8] %1     = GetRegister R5 (uses: 1)
+[00007f37ecc5b360] %2     = GetRegister R4 (uses: 1)
+[00007f37ecc5b3d8] %3     = CompositeConstructU32x2 %2, %1 (uses: 1)
+[00007f37ecc5b450] %4     = PackDouble2x32 %3 (uses: 1)
+[00007f37ecc5b4c8] %5     = GetRegister R1 (uses: 1)
+[00007f37ecc5b540] %6     = GetRegister R0 (uses: 1)
+[00007f37ecc5b5b8] %7     = CompositeConstructU32x2 %6, %5 (uses: 1)
+[00007f37ecc5b630] %8     = PackDouble2x32 %7 (uses: 1)
+[00007f37ecc5b6a8] %9     = FPAdd64 %8, %4 (uses: 1)
+[00007f37ecc5b720] %10    = UnpackDouble2x32 %9 (uses: 2)
+[00007f37ecc5b798] %11    = CompositeExtractU32x2 %10, #0 (uses: 1)
+[00007f37ecc5b810]          SetRegister R8, %11
+[00007f37ecc5b888] %12    = CompositeExtractU32x2 %10, #1 (uses: 1)
+[00007f37ecc5b900]          SetRegister R9, %12
+[00007f37ecc5b978]          SetRegister R16, #0
+[00007f37ecc5b9f0]          SetRegister R17, #0
+[00007f37ecc5ba68] %13    = GetRegister R17 (uses: 1)
+[00007f37ecc5bae0] %14    = GetRegister R16 (uses: 1)
+[00007f37ecc5bb58] %15    = CompositeConstructU32x2 %14, %13 (uses: 1)
+[00007f37ecc5bbd0] %16    = PackUint2x32 %15 (uses: 1)
+[00007f37ecc5bc48] %17    = IAdd64 %16, #0 (uses: 1)
+[00007f37ecc5bcc0] %18    = GetRegister R9 (uses: 1)
+[00007f37ecc5bd38] %19    = GetRegister R8 (uses: 1)
+[00007f37ecc5bdb0] %20    = CompositeConstructU32x2 %19, %18 (uses: 1)
+[00007f37ecc5be28]          WriteGlobal64 %17, %20
+
+Block
+[00007f37ecc5bea0]          Epilogue
+
+Yuzu IR output:
+Block
+[00007f37ecc5bf18]          Prologue
+[00007f37ecc5b2e8] %1     = Identity #3200163856 (uses: 1)
+[00007f37ecc5b360] %2     = Identity #1143391404 (uses: 1)
+[00007f37ecc5b3d8] %3     = CompositeConstructU32x2 %2, %1 (uses: 2)
+[00007f37ecc5bf90] %4     = CompositeExtractU32x2 %3, #0 (uses: 1)
+[00007f37ecc5c008] %5     = CompositeExtractU32x2 %3, #1 (uses: 3)
+[00007f37ecc5c080] %6     = BitFieldUExtract %5, #31, #1 (uses: 1)
+[00007f37ecc5c0f8] %7     = BitFieldUExtract %5, #20, #11 (uses: 3)
+[00007f37ecc5c170] %8     = BitFieldUExtract %5, #0, #20 (uses: 1)
+[00007f37ecc5c1e8] %9     = BitFieldUExtract %4, #29, #3 (uses: 1)
+[00007f37ecc5c260] %10    = ShiftLeftLogical32 %8, #3 (uses: 1)
+[00007f37ecc5c2d8] %11    = BitwiseOr32 %10, %9 (uses: 1)
+[00007f37ecc5c350] %12    = IAdd32 %7, #896 (uses: 1)
+[00007f37ecc5c3c8] %13    = IEqual %7, #0 (uses: 1)
+[00007f37ecc5c440] %14    = SelectU32 %13, #0, %12 (uses: 1)
+[00007f37ecc5c4b8] %15    = IEqual %7, #2047 (uses: 1)
+[00007f37ecc5c530] %16    = SelectU32 %15, #255, %14 (uses: 1)
+[00007f37ecc5c5a8] %17    = ShiftLeftLogical32 %16, #23 (uses: 1)
+[00007f37ecc5c620] %18    = BitwiseOr32 %17, %11 (uses: 1)
+[00007f37ecc5c698] %19    = ShiftLeftLogical32 %6, #31 (uses: 1)
+[00007f37ecc5c710] %20    = BitwiseOr32 %19, %18 (uses: 1)
+[00007f37ecc5c788] %21    = BitCastF32U32 %20 (uses: 1)
+[00007f37ecc5b450] %22    = Identity %21 (uses: 1)
+[00007f37ecc5b4c8] %23    = Identity #1933931480 (uses: 1)
+[00007f37ecc5b540] %24    = Identity #1266626786 (uses: 1)
+[00007f37ecc5b5b8] %25    = CompositeConstructU32x2 %24, %23 (uses: 2)
+[00007f37ecc5c800] %26    = CompositeExtractU32x2 %25, #0 (uses: 1)
+[00007f37ecc5c878] %27    = CompositeExtractU32x2 %25, #1 (uses: 3)
+[00007f37ecc5c8f0] %28    = BitFieldUExtract %27, #31, #1 (uses: 1)
+[00007f37ecc5c968] %29    = BitFieldUExtract %27, #20, #11 (uses: 3)
+[00007f37ecc5c9e0] %30    = BitFieldUExtract %27, #0, #20 (uses: 1)
+[00007f37ecc5ca58] %31    = BitFieldUExtract %26, #29, #3 (uses: 1)
+[00007f37ecc5cad0] %32    = ShiftLeftLogical32 %30, #3 (uses: 1)
+[00007f37ecc5cb48] %33    = BitwiseOr32 %32, %31 (uses: 1)
+[00007f37ecc5cbc0] %34    = IAdd32 %29, #896 (uses: 1)
+[00007f37ecc5cc38] %35    = IEqual %29, #0 (uses: 1)
+[00007f37ecc5ccb0] %36    = SelectU32 %35, #0, %34 (uses: 1)
+[00007f37ecc5cd28] %37    = IEqual %29, #2047 (uses: 1)
+[00007f37ecc5cda0] %38    = SelectU32 %37, #255, %36 (uses: 1)
+[00007f37ecc5ce18] %39    = ShiftLeftLogical32 %38, #23 (uses: 1)
+[00007f37ecc5ce90] %40    = BitwiseOr32 %39, %33 (uses: 1)
+[00007f37ecc5cf08] %41    = ShiftLeftLogical32 %28, #31 (uses: 1)
+[00007f37ecc5cf80] %42    = BitwiseOr32 %41, %40 (uses: 1)
+[00007f37ecc5cff8] %43    = BitCastF32U32 %42 (uses: 1)
+[00007f37ecc5b630] %44    = Identity %43 (uses: 1)
+[00007f37ecc5b6a8] %45    = FPAdd32 %44, %22 (uses: 1)
+[00007f37ecc5d070] %46    = BitCastU32F32 %45 (uses: 3)
+[00007f37ecc5d0e8] %47    = BitFieldUExtract %46, #31, #1 (uses: 1)
+[00007f37ecc5d160] %48    = BitFieldUExtract %46, #23, #8 (uses: 3)
+[00007f37ecc5d1d8] %49    = BitFieldUExtract %46, #0, #23 (uses: 2)
+[00007f37ecc5d250] %50    = BitFieldUExtract %49, #3, #20 (uses: 1)
+[00007f37ecc5d2c8] %51    = BitFieldUExtract %49, #0, #3 (uses: 1)
+[00007f37ecc5d340] %52    = IAdd32 %48, #4294966400 (uses: 1)
+[00007f37ecc5d3b8] %53    = IEqual %48, #0 (uses: 1)
+[00007f37ecc5d430] %54    = SelectU32 %53, #0, %52 (uses: 1)
+[00007f37ecc5d4a8] %55    = IEqual %48, #255 (uses: 1)
+[00007f37ecc5d520] %56    = SelectU32 %55, #2047, %54 (uses: 1)
+[00007f37ecc5d598] %57    = ShiftLeftLogical32 %51, #29 (uses: 1)
+[00007f37ecc5d610] %58    = ShiftLeftLogical32 %56, #20 (uses: 1)
+[00007f37ecc5d688] %59    = BitwiseOr32 %58, %50 (uses: 1)
+[00007f37ecc5d700] %60    = ShiftLeftLogical32 %47, #31 (uses: 1)
+[00007f37ecc5d778] %61    = BitwiseOr32 %60, %59 (uses: 1)
+[00007f37ecc5d7f0] %62    = CompositeConstructU32x2 %57, %61 (uses: 1)
+[00007f37ecc5b720] %63    = Identity %62 (uses: 2)
+[00007f37ecc5b798] %64    = CompositeExtractU32x2 %63, #0 (uses: 1)
+[00007f37ecc5b888] %65    = CompositeExtractU32x2 %63, #1 (uses: 1)
+[00007f37ecc5ba68] %66    = Identity #0 (uses: 1)
+[00007f37ecc5bae0] %67    = Identity #0 (uses: 1)
+[00007f37ecc5bb58] %68    = CompositeConstructU32x2 %67, %66 (uses: 1)
+[00007f37ecc5bbd0] %69    = PackUint2x32 %68 (uses: 1)
+[00007f37ecc5bc48] %70    = IAdd64 %69, #0 (uses: 1)
+[00007f37ecc5bcc0] %71    = Identity %65 (uses: 1)
+[00007f37ecc5bd38] %72    = Identity %64 (uses: 1)
+[00007f37ecc5bdb0] %73    = CompositeConstructU32x2 %72, %71 (uses: 1)
+[00007f37ecc5be28]          WriteGlobal64 %70, %73
+
+Block
+[00007f37ecc5bea0]          Epilogue
+
+Wrote SPIR-V output to test.spirv
