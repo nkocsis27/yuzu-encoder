@@ -1,0 +1,36 @@
+Block
+[00007fb62c50df18]          Prologue
+[00007fb62c50d018]          SetGotoVariable #0, #false
+[00007fb62c50d090]          SetGotoVariable #0, #false
+[00007fb62c50d108]          SetRegister R0, #1266626786
+[00007fb62c50d180]          SetRegister R1, #1933931480
+[00007fb62c50d1f8]          SetRegister R4, #1143391404
+[00007fb62c50d270]          SetRegister R5, #3200163856
+[00007fb62c50d2e8] %1     = GetRegister R5 (uses: 1)
+[00007fb62c50d360] %2     = GetRegister R4 (uses: 1)
+[00007fb62c50d3d8] %3     = CompositeConstructU32x2 %2, %1 (uses: 1)
+[00007fb62c50d450] %4     = PackDouble2x32 %3 (uses: 1)
+[00007fb62c50d4c8] %5     = GetRegister R1 (uses: 1)
+[00007fb62c50d540] %6     = GetRegister R0 (uses: 1)
+[00007fb62c50d5b8] %7     = CompositeConstructU32x2 %6, %5 (uses: 1)
+[00007fb62c50d630] %8     = PackDouble2x32 %7 (uses: 1)
+[00007fb62c50d6a8] %9     = FPAdd64 %8, %4 (uses: 1)
+[00007fb62c50d720] %10    = UnpackDouble2x32 %9 (uses: 2)
+[00007fb62c50d798] %11    = CompositeExtractU32x2 %10, #0 (uses: 1)
+[00007fb62c50d810]          SetRegister R8, %11
+[00007fb62c50d888] %12    = CompositeExtractU32x2 %10, #1 (uses: 1)
+[00007fb62c50d900]          SetRegister R9, %12
+[00007fb62c50d978]          SetRegister R16, #0
+[00007fb62c50d9f0]          SetRegister R17, #0
+[00007fb62c50da68] %13    = GetRegister R17 (uses: 1)
+[00007fb62c50dae0] %14    = GetRegister R16 (uses: 1)
+[00007fb62c50db58] %15    = CompositeConstructU32x2 %14, %13 (uses: 1)
+[00007fb62c50dbd0] %16    = PackUint2x32 %15 (uses: 1)
+[00007fb62c50dc48] %17    = IAdd64 %16, #0 (uses: 1)
+[00007fb62c50dcc0] %18    = GetRegister R9 (uses: 1)
+[00007fb62c50dd38] %19    = GetRegister R8 (uses: 1)
+[00007fb62c50ddb0] %20    = CompositeConstructU32x2 %19, %18 (uses: 1)
+[00007fb62c50de28]          WriteGlobal64 %17, %20
+
+Block
+[00007fb62c50dea0]          Epilogue
