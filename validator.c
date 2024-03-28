@@ -95,13 +95,13 @@ uint32_t f32ToU32(float fa) {
     return t.i;
 }
 
-//NOTE added here
+
 //From double to two uint32_t
 union doubleTo32uints {
     double d;
     struct s {
         uint32_t hi;
-        uint32_t lo; //FIXME is lo and hi correct order?
+        uint32_t lo; 
     } s;
 } x;
 
@@ -112,6 +112,12 @@ uint32_t doubleTo32lo(double d) {
 uint32_t doubleTo32hi(double d) {
     x.d = d;
     return x.s.hi;
+}
+
+double OpCompositeConstruct(uint32_t hi, uint32_t lo) {
+    x.s.hi = hi;
+    x.s.lo = lo;
+    return x.d;
 }
 
 //Opposite of previous conversion
@@ -154,12 +160,12 @@ uint32_t CompositeExtract(uint64_t packed, int index) {
 }
 
 //CompositeConstruct
-//FIXME shift overflow float (32)
-double SPCompositeConstruct (uint32_t mostSig, uint32_t leastSig) {
-    double new = mostSig << 32;
-    new = mostSig | leastSig;
-    return new;
-}
+// Not Correct **
+// double SPCompositeConstruct (uint32_t mostSig, uint32_t leastSig) {
+//     double new = mostSig << 31; //31 correct?
+//     new = mostSig | leastSig;
+//     return new;
+// }
 
 //BitFieldExtract
 uint32_t BitFieldExtract(uint32_t base, uint32_t offset, uint32_t count) {
@@ -276,12 +282,12 @@ double SASS_DADD_RM(double a, double b) {
     fesetround(old_rm);
     return res;
 }
-//FIXME Pass a and b in?
+
 double SprivDoubleAdd (double a, double b) {
 
     uint32_t p66 = ShiftLeftLogical(958480,3); //line 130
     uint32_t p67 = BitwiseOr(p66, 2);
-    uint32_t p70 = ShiftLeftLogical(1899, 23);
+    uint32_t p70 = ShiftLeftLogical(1899, 23); //904 was here
     uint32_t p71 = BitwiseOr(p70, p67);
     uint32_t p73 = ShiftLeftLogical(1,31);
     uint32_t p74 = BitwiseOr(p73, p71);
@@ -314,9 +320,9 @@ double SprivDoubleAdd (double a, double b) {
     uint32_t p107 = BitwiseOr(p106,p94);
     uint32_t p108 = ShiftLeftLogical(p90,31);
     uint32_t p109 = BitwiseOr(p108,p107);
-    double p111 = SPCompositeConstruct(0,0); //NOTE changes to double from float
+    double p111 = OpCompositeConstruct(0,0); 
     uint64_t p112 = f64toU64(p111);
-    double p113 = SPCompositeConstruct(p105,p109);
+    double p113 = OpCompositeConstruct(p105,p109);
     return p112;
 
 }
@@ -380,3 +386,5 @@ int main(int argc, char const *argv[])
     
     return 0;
 }
+
+//TODO: Fix composite extract, comment out the constant propagation and re run srs
