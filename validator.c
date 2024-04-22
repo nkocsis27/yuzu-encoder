@@ -351,15 +351,15 @@ int main(int argc, char const *argv[])
     // x = OpBitwiseAnd(a,b);
     // printf("OpBitwiseAnd: %u\n", x);
 
-    double d = 2.1e20l;
-    printf("Double: %f\n", d);
-    uint32_t lo  =doubleTo32lo(d);
-    uint32_t hi = doubleTo32hi(d);
-    printf("Hi: %u\n",hi);
-    printf("Lo: %u\n",lo);
+    // double d = 2.1e20l;
+    // printf("Double: %f\n", d);
+    // uint32_t lo  =doubleTo32lo(d);
+    // uint32_t hi = doubleTo32hi(d);
+    // printf("Hi: %u\n",hi);
+    // printf("Lo: %u\n",lo);
 
-    double d1 = uint32ToDouble(lo,hi);
-    printf("Double: %f\n\n\n", d1);
+    // double d1 = uint32ToDouble(lo,hi);
+    // printf("Double: %f\n\n\n", d1);
 
 
     double X, Y, b2 = 4.78e55l, b3 = 2.1e20l;
@@ -386,5 +386,3 @@ int main(int argc, char const *argv[])
     
     return 0;
 }
-
-//TODO: Fix composite extract, comment out the constant propagation and re run srs
